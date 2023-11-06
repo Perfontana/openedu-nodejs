@@ -44,7 +44,7 @@ app.get("/fetch", (_, res) => {
   createReadStream("./task3.html").pipe(res);
 });
 
-app.get("/result4", (req, res) => {
+app.post("/result4", (req, res) => {
   res.status(200).send({
     message: NAME,
     "x-result": req.headers["x-test"],
