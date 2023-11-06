@@ -1,3 +1,5 @@
+const { createReadStream } = require("fs");
+
 const { cors } = require("./cors-middleware");
 const express = require("express");
 
@@ -23,6 +25,20 @@ app.get("/sample", (_, res) => {
       return x * this ** 2
     }
   `);
+});
+
+app.get("/promise", (_, res) => {
+  res.status(200).send(`
+  function task(x) {
+    return x < 18 ? Promise.resolve(x) : Promise.reject(x)
+  }
+`);
+});
+
+app.get("/fetch", (_, res) => {
+  res.setHeader("Content-Type", "text/html; charset=UTF-8");
+
+  createReadStream("./task3.html").pipe(res);
 });
 
 app.listen(3000, () => {
