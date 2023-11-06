@@ -3,20 +3,23 @@ const { createReadStream } = require("fs");
 const { cors } = require("./cors-middleware");
 const express = require("express");
 
+const NAME = "stalmahov";
+
 const app = express();
 
+app.use(express.text());
 app.use(cors);
 
 app.get("/", (_, res) => {
-  res.setHeader("X-Author", "stalmahov");
+  res.setHeader("X-Author", NAME);
 
-  res.status(200).send("stalmahov");
+  res.status(200).send(NAME);
 });
 
 app.get("/login", (_, res) => {
   res.setHeader("Content-Type", "text/plain; charset=UTF-8");
 
-  res.status(200).send("stalmahov");
+  res.status(200).send(NAME);
 });
 
 app.get("/sample", (_, res) => {
@@ -39,6 +42,14 @@ app.get("/fetch", (_, res) => {
   res.setHeader("Content-Type", "text/html; charset=UTF-8");
 
   createReadStream("./task3.html").pipe(res);
+});
+
+app.get("/result4", (req, res) => {
+  res.status(200).send({
+    message: NAME,
+    "x-result": req.headers["x-test"],
+    "x-body": req.body,
+  });
 });
 
 app.listen(3000, () => {
